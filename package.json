@@ -1,0 +1,32 @@
+{
+  "name": "zsseguros-restfull",
+  "version": "1.0.0",
+  "description": "RESTFull API para ZSSEGUROS PWA",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && nodemon ./build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zscaiosi/zsseguros-restfull.git"
+  },
+  "author": "Caio Saldanha",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zscaiosi/zsseguros-restfull/issues"
+  },
+  "homepage": "https://github.com/zscaiosi/zsseguros-restfull#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "mariasql": "^0.2.6",
+    "moment": "^2.21.0",
+    "typescript": "^2.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^9.4.7",
+    "nodemon": "^1.17.1"
+  }
+}
