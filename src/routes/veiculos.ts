@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const clientesDAO = require('../DAO/mariadbDAO');
+const apolicesDAO = require('../DAO/mariadbDAO');
 const moment = require('moment');
 const {dbConfig} = require('../config/configs');
 
@@ -8,27 +8,19 @@ router.post('/insere', (req: any, res: any) => {
   const body = req.body;
 
   const insertArray = [
+    body.cod_veiculo,
+    body.placa,
+    body.chassi,
+    body.marca,
+    body.modelo,
+    body.ano_fabricacao,
     body.cod_cliente,
-    body.cod_corretor,
-    body.nome,
-    body.sobrenome,
-    body.cpf,
-    body.rg,
-    body.dt_nascimento,
-    moment().format('YYYY-MM-DD'),
-    body.logradouro,
-    Number(body.numero),
-    body.bairro,
-    body.cep,
-    body.cidade,
-    body.uf,
-    body.complemento_endereco,
-    body.genero
+    body.ano_modelo
   ];
 
-  const dao = new clientesDAO(dbConfig);
+  const dao = new apolicesDAO(dbConfig);
 
-  const rows = dao.insert('tbl_cliente', insertArray, (error, rows) => {
+  const rows = dao.insert('tbl_veiculo', insertArray, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
@@ -40,9 +32,9 @@ router.post('/insere', (req: any, res: any) => {
 
 router.get('/lista', (req, res) => {
 
-  const dao = new clientesDAO(dbConfig);
+  const dao = new apolicesDAO(dbConfig);
 
-  dao.select('SELECT * FROM tbl_cliente', (error, rows) => {
+  dao.select('SELECT * FROM tbl_veiculo', (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
@@ -59,9 +51,9 @@ router.get('/busca/:id', (req: any, res: any) => {
     res.status(400).json({ error: 'Incorrect param!' });
   }
 
-  const dao = new clientesDAO(dbConfig);
+  const dao = new apolicesDAO(dbConfig);
 
-  dao.select('SELECT * FROM tbl_cliente WHERE cod_cliente='+id, (error, rows) => {
+  dao.select('SELECT * FROM tbl_veiculo WHERE cod_veiculo='+id, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
@@ -75,28 +67,22 @@ router.put('/altera/:id', (req: any, res: any) => {
   const body = req.body;
 
   const updateArray = [
-    body.nome,
-    body.sobrenome,
-    body.cpf,
-    body.rg,
-    body.dt_nascimento,
-    body.logradouro,
-    Number(body.numero),
-    body.bairro,
-    body.cep,
-    body.cidade,
-    body.uf,
-    body.complemento_endereco,
-    body.genero
+    body.placa,
+    body.chassi,
+    body.marca,
+    body.modelo,
+    body.ano_fabricacao,
+    body.cod_cliente,
+    body.ano_modelo
   ];
 
   if (isNaN(id)) {
     res.status(400).json({ error: 'Incorrect param!' });
   }
 
-  const dao = new clientesDAO(dbConfig);
+  const dao = new apolicesDAO(dbConfig);
 
-  dao.updateCliente('tbl_cliente', id, updateArray, (error, rows) => {
+  dao.updateVeiculo('tbl_veiculo', id, updateArray, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
