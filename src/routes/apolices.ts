@@ -23,7 +23,7 @@ router.post('/insere', (req: any, res: any) => {
 
   const dao = new apolicesDAO(dbConfig);
 
-  const rows = dao.insert('tbl_apolice', insertArray, (error, rows) => {
+  const rows = dao.insertApolice('tbl_apolice', insertArray, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {

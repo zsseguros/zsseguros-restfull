@@ -8,7 +8,7 @@ router.post('/insere', (req: any, res: any) => {
   const body = req.body;
 
   const insertArray = [
-    body.cod_veiculo,
+    body.placa.replace('-', '')+body.chassi.slice(14),
     body.placa,
     body.chassi,
     body.marca,
@@ -20,7 +20,7 @@ router.post('/insere', (req: any, res: any) => {
 
   const dao = new apolicesDAO(dbConfig);
 
-  const rows = dao.insert('tbl_veiculo', insertArray, (error, rows) => {
+  const rows = dao.insertVeiculo('tbl_veiculo', insertArray, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
