@@ -20,13 +20,13 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "mariasql": "^0.2.6",
-    "moment": "^2.21.0",
-    "typescript": "^2.7.2"
+    "moment": "^2.22.0",
+    "typescript": "^2.8.1"
   },
   "devDependencies": {
-    "@types/node": "^9.4.7",
-    "nodemon": "^1.17.1"
+    "@types/node": "^9.6.1",
+    "nodemon": "^1.17.3"
   }
 }

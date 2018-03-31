@@ -15,7 +15,8 @@ router.post('/insere', (req: any, res: any) => {
     body.modelo,
     body.ano_fabricacao,
     body.cod_cliente,
-    body.ano_modelo
+    body.ano_modelo,
+    body.cod_apolice
   ];
 
   const dao = new apolicesDAO(dbConfig);
@@ -54,6 +55,42 @@ router.get('/busca/:id', (req: any, res: any) => {
   const dao = new apolicesDAO(dbConfig);
 
   dao.select('SELECT * FROM tbl_veiculo WHERE cod_veiculo='+id, (error, rows) => {
+    if ( error ) {
+      res.status(500).json({ error });
+    } else {
+      res.status(200).json({ rows });
+    }
+  });
+});
+
+router.get('/busca/referencia/cliente/:id', (req: any, res: any) => {
+  const { id } = req.params;
+
+  if (isNaN(id)) {
+    res.status(400).json({ error: 'Incorrect param!' });
+  }
+
+  const dao = new apolicesDAO(dbConfig);
+
+  dao.select('SELECT * FROM tbl_veiculo WHERE cod_cliente='+id, (error, rows) => {
+    if ( error ) {
+      res.status(500).json({ error });
+    } else {
+      res.status(200).json({ rows });
+    }
+  });
+});
+
+router.get('/busca/referencia/apolice/:id', (req: any, res: any) => {
+  const { id } = req.params;
+
+  if (isNaN(id)) {
+    res.status(400).json({ error: 'Incorrect param!' });
+  }
+
+  const dao = new apolicesDAO(dbConfig);
+
+  dao.select('SELECT * FROM tbl_veiculo WHERE cod_apolice='+id, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
