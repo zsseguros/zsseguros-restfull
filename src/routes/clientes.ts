@@ -9,7 +9,8 @@ router.post('/insere', (req: any, res: any) => {
 
   const insertArray = [
     body.cod_cliente,
-    body.cod_corretor,
+    // body.cod_corretor,
+    'A5269J70855881',
     body.nome,
     body.sobrenome,
     body.cpf,
@@ -28,7 +29,7 @@ router.post('/insere', (req: any, res: any) => {
 
   const dao = new clientesDAO(dbConfig);
 
-  const rows = dao.insert('tbl_cliente', insertArray, (error, rows) => {
+  const rows = dao.insertCliente('tbl_cliente', insertArray, (error, rows) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
