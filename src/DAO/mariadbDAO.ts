@@ -22,8 +22,10 @@ MariasqlDAO.prototype.select = function(queryString: string, next: Function) {
 };
 
 MariasqlDAO.prototype.insertCliente = function(table: string, values: Array<any>, next: Function) {
-
-  this._connection.query(`INSERT INTO ${table} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, values, (error, rows) => {
+  
+  this._connection.query(`INSERT INTO ${table} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, values, (error, rows) => {
+    console.log("error", error)
+    
     if (error) {
       next(error, null);
     }
@@ -49,7 +51,7 @@ MariasqlDAO.prototype.insertVeiculo = function(table: string, values: Array<any>
 
 MariasqlDAO.prototype.insertApolice = function(table: string, values: Array<any>, next: Function) {
 
-  this._connection.query(`INSERT INTO ${table} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, values, (error, rows) => {
+  this._connection.query(`INSERT INTO ${table} VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, values, (error, rows) => {
     if (error) {
       next(error, null);
     }
@@ -91,7 +93,7 @@ MariasqlDAO.prototype.updateApolice = function(table: string, cod_entity: string
     
     if ( fk_infos.table === 'tbl_cliente' ) {
 
-      this._connection.query(`UPDATE ${table} SET cod_veiculo=?, dt_emissao=?, dt_vigencia=?, seguradora=?, class_bonus=?, vl_franquia=?, vl_franquia_vidros=?, nome_arquivo=?, vl_premio_total=?, WHERE cod_cliente=${fk_infos.fk}`, values, (error, rows) => {
+      this._connection.query(`UPDATE ${table} SET dt_emissao=?, dt_vigencia=?, seguradora=?, class_bonus=?, vl_franquia=?, vl_franquia_vidros=?, nome_arquivo=?, vl_premio_total=?, ativa=? WHERE cod_cliente=${fk_infos.fk}`, values, (error, rows) => {
         if (error) {
           next(error, null);
         }

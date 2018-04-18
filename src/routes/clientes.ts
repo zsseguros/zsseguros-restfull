@@ -9,7 +9,6 @@ router.post('/insere', (req: any, res: any) => {
 
   const insertArray = [
     body.cod_cliente,
-    // body.cod_corretor,
     'A5269J70855881',
     body.nome,
     body.sobrenome,
@@ -24,9 +23,10 @@ router.post('/insere', (req: any, res: any) => {
     body.cidade,
     body.uf,
     body.complemento_endereco,
-    body.genero
+    body.genero,
+    1
   ];
-
+  
   const dao = new clientesDAO(dbConfig);
 
   const rows = dao.insertCliente('tbl_cliente', insertArray, (error, rows) => {
@@ -67,6 +67,49 @@ router.get('/busca/:id', (req: any, res: any) => {
       res.status(500).json({ error });
     } else {
       res.status(200).json({ rows });
+    }
+  });
+});
+
+router.get('/busca-detalhes/:id', (req: any, res: any) => {
+  const { id } = req.params;
+
+  if (isNaN(id)) {
+    res.status(400).json({ error: 'Incorrect param!' });
+  }
+
+  const dao = new clientesDAO(dbConfig);
+  let obj = null;
+
+  dao.select('SELECT * FROM tbl_cliente WHERE cod_cliente='+id, (error, rows) => {
+    if ( error ) {
+      res.status(500).json({ error });
+    } else {
+      
+      obj = {
+        client: rows[0]
+      }
+      // Busca apolices do cliente
+      dao.select('SELECT * FROM tbl_apolice WHERE cod_cliente ='+id, (error, rows) => {
+        if ( error ) {
+          obj = {
+            ...obj,
+            apolices: null
+          }
+
+          res.status(200).json({ obj });
+
+        } else {
+            obj = {
+              ...obj,
+              apolices: rows
+            }
+            // retorna
+            res.status(200).json({ ...obj });
+        }
+
+      });
+
     }
   });
 });

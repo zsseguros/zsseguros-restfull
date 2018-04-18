@@ -13,12 +13,15 @@ router.post('/insere', (req: any, res: any) => {
     moment(body.dt_emissao).format("YYYY-MM-DD"),
     moment(body.dt_vigencia).format("YYYY-MM-DD"),
     body.seguradora,
-    body.classe_bonus,
-    Number(body.vl_franquia),
-    Number(body.vl_franquia_vidros),
+    Number(body.classe_bonus).toFixed(2),
+    Number(body.vl_franquia).toFixed(2),
+    Number(body.vl_franquia_vidros).toFixed(2),
     body.nome_arquivo,
-    Number(body.vl_premio_total)
+    Number(body.vl_premio_total).toFixed(2),
+    body.ativa
   ];
+
+console.log(insertArray, insertArray.length);
 
   const dao = new apolicesDAO(dbConfig);
 
@@ -105,15 +108,17 @@ router.put('/altera/:id', (req: any, res: any) => {
   const body = req.body;
 
   const updateArray = [
-    body.cod_veiculo,
+    // body.cod_apolice,
+    // body.cod_cliente,
     moment(body.dt_emissao).format("YYYY-MM-DD"),
     moment(body.dt_vigencia).format("YYYY-MM-DD"),
     body.seguradora,
-    body.classe_bonus,
-    Number(body.vl_franquia),
-    Number(body.vl_franquia_vidros),
+    Number(body.classe_bonus).toFixed(2),
+    Number(body.vl_franquia).toFixed(2),
+    Number(body.vl_franquia_vidros).toFixed(2),
     body.nome_arquivo,
-    Number(body.vl_premio_total)
+    Number(body.vl_premio_total).toFixed(2),
+    moment(body.dt_vigencia) < moment()
   ];
 
   if (isNaN(id)) {
