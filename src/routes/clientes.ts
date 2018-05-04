@@ -7,12 +7,16 @@ router.post('/insere', (req: any, res: any) => {
 
   const body = req.body;
 
+  let newId = body.cod_cliente.replace(/\./g, '');
+  newId = newId.replace(/-/g, '');
+
   const insertArray = [
-    body.cod_cliente,
+    newId,
     'A5269J70855881',
     body.nome,
     body.sobrenome,
     body.cpf,
+    body.cnh,
     body.rg,
     body.dt_nascimento,
     moment().format('YYYY-MM-DD'),
@@ -72,12 +76,15 @@ router.get('/busca/:id', (req: any, res: any) => {
 });
 
 router.get('/busca-detalhes/:id', (req: any, res: any) => {
-  const { id } = req.params;
+  let { id } = req.params;
+
+  let newId = id.replace(/\./g, '');
+  id = newId.replace(/-/g, '');
 
   if (isNaN(id)) {
     res.status(400).json({ error: 'Incorrect param!' });
   }
-
+console.log(id)
   const dao = new clientesDAO(dbConfig);
   let obj = null;
 
@@ -122,6 +129,7 @@ router.put('/altera/:id', (req: any, res: any) => {
     body.nome,
     body.sobrenome,
     body.cpf,
+    body.cnh,
     body.rg,
     body.dt_nascimento,
     body.logradouro,
@@ -147,6 +155,49 @@ router.put('/altera/:id', (req: any, res: any) => {
       res.status(200).json({ rows });
     }
   });
+});
+
+router.post('/tarefa-insere', (req: any, res: any) => {
+  const body = req.body;
+
+  let insertArray = [
+    body.cod_cliente,
+    body.titulo,
+    moment().format('YYYY-DD-MM'),
+    moment(body.dt_final).format('YYYY-DD-MM'),
+    String(body.notificar).toLowerCase() === 'true',
+    body.descricao
+  ];
+
+  const dao = new clientesDAO(dbConfig);
+
+  dao.insertTarefa('tbl_tarefa', insertArray, (error, rows) => {
+    if ( error ) {
+      console.log(error)
+      res.status(500).json({ error });
+      return;
+    } else {
+      res.status(200).json({ rows });
+    }
+  });
+});
+
+router.get('/tarefa-lista/:id', (req, res) => {
+  const { id } = req.params;
+  const dao = new clientesDAO(dbConfig);
+
+  if ( id ) {
+    dao.select('SELECT * FROM tbl_tarefa WHERE cod_cliente ='+req.params.id, (error, rows) => {
+      if ( error ) {
+        res.status(500).json({ error });
+      } else {
+        res.status(200).json({ rows });
+      }
+    });    
+  } else {
+    res.status(400).json({ error: 'Missing client\'s ID!' });
+  }
+
 });
 
 export default router;

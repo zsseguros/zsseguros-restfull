@@ -108,8 +108,8 @@ router.put('/altera/:id', (req: any, res: any) => {
   const body = req.body;
 
   const updateArray = [
-    // body.cod_apolice,
-    // body.cod_cliente,
+    body.cod_apolice,
+    body.cod_cliente,
     moment(body.dt_emissao).format("YYYY-MM-DD"),
     moment(body.dt_vigencia).format("YYYY-MM-DD"),
     body.seguradora,
@@ -120,7 +120,7 @@ router.put('/altera/:id', (req: any, res: any) => {
     Number(body.vl_premio_total).toFixed(2),
     moment(body.dt_vigencia) < moment()
   ];
-
+console.log(updateArray)
   if (isNaN(id)) {
     res.status(400).json({ error: 'Incorrect param!' });
   }
@@ -129,6 +129,7 @@ router.put('/altera/:id', (req: any, res: any) => {
 
   dao.updateApolice('tbl_apolice', id, updateArray, (error, rows) => {
     if ( error ) {
+      console.log(error)
       res.status(500).json({ error });
     } else {
       res.status(200).json({ rows });
