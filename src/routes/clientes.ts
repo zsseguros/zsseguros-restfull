@@ -200,4 +200,17 @@ router.get('/tarefa-lista/:id', (req, res) => {
 
 });
 
+router.get('/tarefa-lista', (req, res) => {
+  const dao = new clientesDAO(dbConfig);
+
+    dao.select('SELECT * FROM tbl_tarefa', (error, rows) => {
+      if ( error ) {
+        res.status(500).json({ error });
+      } else {
+        res.status(200).json({ rows });
+      }
+    });    
+
+});
+
 export default router;
