@@ -62,7 +62,7 @@ MariasqlDAO.prototype.insertApolice = function(table: string, values: Array<any>
 };
 
 MariasqlDAO.prototype.insertTarefa = function(table: string, values: Array<any>, next: Function) {
-
+console.log("tarefas", values)
   this._connection.query(`INSERT INTO ${table} VALUES (${null}, ?, ?, ?, ?, ?, ?)`, values, (error, rows) => {
     if (error) {
       next(error, null);
