@@ -164,7 +164,8 @@ router.post('/tarefa-insere', (req: any, res: any) => {
     body.cod_cliente,
     body.titulo,
     moment().format('YYYY-DD-MM'),
-    moment(body.dt_final).format('YYYY-DD-MM'),
+    body.dt_final,
+    // moment(body.dt_final).format('YYYY-DD-MM'),
     String(body.notificar).toLowerCase() === 'true',
     body.descricao
   ];
