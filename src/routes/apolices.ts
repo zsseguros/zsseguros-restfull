@@ -2,6 +2,7 @@ const router = require('express').Router();
 const apolicesDAO = require('../DAO/mariadbDAO');
 const moment = require('moment');
 const {dbConfig} = require('../config/configs');
+const {pagination} = require('../APIs/filters');
 
 router.post('/insere', (req: any, res: any) => {
 
@@ -43,7 +44,11 @@ router.get('/lista', (req, res) => {
     if ( error ) {
       res.status(500).json({ error });
     } else {
-      res.status(200).json({ rows });
+      if ( req.query.begin && req.query.end ) {
+        res.status(200).json({ rows: pagination(req.params.begin, req.params.end, rows) });
+      } else {
+        res.status(200).json({ rows });
+      }
     }
   });
 
