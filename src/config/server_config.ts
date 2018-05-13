@@ -9,10 +9,6 @@ module.exports = function(){
   const app = express();
   app.use(bodyParser.json());
   app.use(cors());
-  // app.use('*', (req: any, res: any, next: Function) => {
-  //   res.set('Access-Control-Allow-Origin', '*');
-  //   next();
-  // });
 
   app.use('/clientes', clientes);
   app.use('/apolices', apolices);
